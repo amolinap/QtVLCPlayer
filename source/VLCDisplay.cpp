@@ -12,15 +12,10 @@ VLCDisplay::VLCDisplay(const QString path, QWidget *parent) :
     isRecord = false;
     isPlay = false;
     isRTSP = false;
-    isSubTitles = false;
     url = "";
-    lat = 0;
-    lon = 0;
-    alt = 0;
-    pathVideo = "videos/";
+    pathVideo = QCoreApplication::applicationDirPath()+"/../../../videos/";
 
     videoURL = "rtsp://201.168.1.30:554/axis-media/media.amp";
-    startTime=-1;
 
     createInstanceVLC(path);
     mediaPlayer = libvlc_media_player_new_from_media(media);
@@ -29,7 +24,6 @@ VLCDisplay::VLCDisplay(const QString path, QWidget *parent) :
     vlcMacWidget->setMinimumWidth(ui->groupBox->width());
 
     readingSizeFile = false;
-    fileSubtitles = NULL;
     option =0;    
     processRecord.setProcessChannelMode(QProcess::MergedChannels);
 
@@ -43,10 +37,6 @@ VLCDisplay::~VLCDisplay()
     }
 
     stopRecorVideo();
-
-    //delete mediaPlayer;
-    //delete media;
-    //delete vlcMacWidget;
 
     delete ui;
 }
@@ -130,33 +120,6 @@ void VLCDisplay::createInstanceVLC(const QString url)
     media = libvlc_media_new_path(instance, qtu(url));
 }
 
-void VLCDisplay::createFileSubTitles(QString file)
-{
-    QString fileName(file);
-
-    if (fileName.isEmpty())
-        return;
-
-    QString tempFile(QFileInfo(fileName).baseName());
-    QString tempPath(QFileInfo(fileName).dir().path()+"/");
-
-    if(fileSubtitles== NULL)
-    {
-        fileSubtitles = new QFile();
-    }
-
-    if(fileSubtitles->fileName() != tempPath + "/" + tempFile + ".srt")
-    {
-        if(!QFileInfo(tempPath+"/"+tempFile+".srt").exists())
-        {
-            fileSubtitles->setFileName(file+".srt");
-            fileSubtitles->open(QIODevice::WriteOnly | QIODevice::Append);
-        }
-    }
-
-    this->isSubTitles = true;
-}
-
 void VLCDisplay::viewPIDProcess()
 {
     pid_t pid = (pid_t)idProcess;
@@ -232,30 +195,6 @@ void VLCDisplay::updateInterface()
 
     if(isRecord)
     {
-        if(isSubTitles)
-        {
-            QTextStream streamData(fileSubtitles);
-
-            if(startTime== (quint64)-1)
-            {
-                startTime = getGroundTimeNow();
-            }
-
-            quint64 filterTime = (getGroundTimeNow()-startTime)/1000;
-            int sec = static_cast<int>(filterTime - static_cast<int>(filterTime / 60) * 60);
-            int min = static_cast<int>(filterTime / 60)-((static_cast<int>(filterTime / 60)/60)*60);
-            int hours = static_cast<int>((filterTime / 60)/60);
-            QString timeText1;
-            timeText1 = timeText1.sprintf("%02d:%02d:%02d", hours, min, sec);
-
-            streamData
-                    << countSubTitle << "\r\n"
-                    << timeText1 << "   <i> Lat: "<<this->lat<<" - Lon: "<<this->lon<<" - Alt: "<<this->alt<<"</i> \r\n"
-                    << "\r\n\n";
-
-            countSubTitle++;
-        }
-
         QFileInfo fileInfo(nameFile+".mp4");
 
         if(fileInfo.exists())
@@ -275,8 +214,8 @@ void VLCDisplay::updateInterface()
                     while (!closedVideo)
                     {
                         pid_t pid = (pid_t)idProcess;
-                        qDebug()<<"KILL(pid, SIGINT): "<<kill(pid, SIGINT);
-                        qDebug()<<"KILLPG(pid, SIGINT): "<<killpg(pid, SIGINT);
+                        kill(pid, SIGINT);
+                        killpg(pid, SIGINT);
 
                         closedVideo = readPIDProcess();
                     }
@@ -284,14 +223,11 @@ void VLCDisplay::updateInterface()
 
                     isRecord = false;
                     option=0;
-                    //qDebug()<<"failed to save video: "<<idProcess;
                 }
 
                 option++;
-                //qDebug()<<"closing " <<option;
             }
         }
-        //qDebug()<<fileInfo.filePath()<< " "<<fileInfo.size()/1024<<" KB";
     }
 }
 
@@ -302,28 +238,6 @@ quint64 VLCDisplay::getGroundTimeNow()
     quint64 milliseconds = time.toTime_t() * static_cast<quint64>(1000);
     return static_cast<quint64>(milliseconds + time.time().msec());
 }
-
-void VLCDisplay::setPositionUAV(double lat, double lon, double alt)
-{
-    this->lat = lat;
-    this->lon = lon;
-    this->alt = alt;
-}
-
-//    char const *argv[] =
-//    {
-//        //"-vvvvv",
-//        //"--no-video-title-show",
-//        "--no-skip-frames",
-//        //"--no-audio",
-//        //"--plugin-path", VLC_TREE "/modules",
-//        "--ignore-config", //Don't use VLC's config files
-//        "--rtsp-caching=100"
-//        //"--{rtsp,http,sout-mux}-caching"
-//    };
-//    int argc = sizeof( argv ) / sizeof( *argv );
-//    instance = libvlc_new(argc, argv);//0, NULL);
-//    libvlc_media_t * mediar =libvlc_media_new_path(instance, qtu(url));
 
 void VLCDisplay::resizeEvent(QResizeEvent *size)
 {
@@ -336,31 +250,12 @@ void VLCDisplay::closeEvent(QCloseEvent *event)
 
     if(idProcess>0)
     {
-        pid_t id = (pid_t)idProcess;//processRecord.pid()+1;
+        pid_t id = (pid_t)idProcess;
         processRecord.close();
-        qDebug()<<"KILL(pid, SIGINT): "<<kill(id, SIGINT);
-        qDebug()<<"KILLPG(pid, SIGINT): "<<killpg(id, SIGINT);
-    }
-
-    if(fileSubtitles)
-    {
-        if(fileSubtitles->isOpen())
-        {
-            fileSubtitles->close();
-            fileSubtitles->flush();
-        }
+        kill(id, SIGINT);
+        killpg(id, SIGINT);
     }
 }
-
-//void VLCDisplay::setSaveAutomatic(bool automatic)
-//{
-//    this->savedAutomatic = automatic;
-
-//    if(savedAutomatic)
-//        runRecordVideo();
-//    else
-//        stopRecorVideo();
-//}
 
 void VLCDisplay::runRecordVideo()
 {
@@ -368,12 +263,11 @@ void VLCDisplay::runRecordVideo()
     {
         QStringList arguments;
         QString fileName = QDate::currentDate().toString("yyyyMMdd")+QTime::currentTime().toString("HHmmss");
-        arguments << videoURL << QCoreApplication::applicationDirPath()+"/../../../videos/" << fileName;
+        arguments << videoURL << pathVideo << fileName;
 
         processRecord.start(QCoreApplication::applicationDirPath() + "/./recordVLC.sh", arguments);
 
         nameFile = pathVideo + "/" + fileName;
-        createFileSubTitles(nameFile);
         readingSizeFile = true;
 
         qDebug()<<"file: "<<QCoreApplication::applicationDirPath() << "/./recordVLC.sh" << " Argumentos:" <<arguments;
@@ -391,29 +285,20 @@ void VLCDisplay::stopRecorVideo()
         emit emitRecordVideo(false);
         isRecord = false;
 
-        if(fileSubtitles->isOpen())
-        {
-            isSubTitles = false;
-            countSubTitle =0;
-            startTime=-1;
-            fileSubtitles->close();
-            fileSubtitles->flush();
-        }
-
         processRecord.close();
         processRecord.kill();
 
         bool closedVideo = false;
+
         while (!closedVideo)
         {
             pid_t pid = (pid_t)idProcess;
-            qDebug()<<"KILL(pid, SIGINT): "<<kill(pid, SIGINT);
-            qDebug()<<"KILLPG(pid, SIGINT): "<<killpg(pid, SIGINT);
-            //qDebug()<<"While 2 Matando Proceso: "<<pid;
+            kill(pid, SIGINT);
+            killpg(pid, SIGINT);
 
             closedVideo = readPIDProcess();
         }
-        //qDebug()<<"Exit while...";
+
         idProcess =0;
     }
 }

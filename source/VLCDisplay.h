@@ -75,12 +75,6 @@ public slots:
      **/
     void createInstanceVLC(const QString url);
     /**
-     * @brief This method receive the directory for creates the subtitle file to store GPS positions.
-     *
-     * @param file Subtitle file for store GPS positions
-     */
-    void createFileSubTitles(QString file);
-    /**
      * @brief This method reads the process to know the status of video storage.
      *
      * @return If the process has been canceled
@@ -101,15 +95,7 @@ public slots:
      *
      * @return Time in milliseconds
      **/
-    quint64 getGroundTimeNow();
-    /**
-     * @brief This method gets the position UAV during flight
-     *
-     * @param lat Latitude UAV in flight
-     * @param lon Longitude UAV in flight
-     * @param alt Altitude UAV in flight
-     **/
-    void setPositionUAV(double lat, double lon, double alt);
+    quint64 getGroundTimeNow();    
     /** @brief Starts the process of storing video */
     void runRecordVideo();
     /** @brief Stops the video storage */
@@ -130,25 +116,11 @@ protected:
     bool isRecord;
     /** @brief Saved if video player is play */
     bool isPlay;
-    /** @brief Saved if the file is stored subtitle */
-    bool isSubTitles;
     QString url, pathVideo, nameFile;
     QProcess processRecord;
     /** @brief Ready size file where store video */
     bool readingSizeFile;
     int idProcess, option;
-    /** @brief Holds name file where store the position GPS subtitles */
-    QFile *fileSubtitles;
-    /** @brief Count number line for subtitles */
-    int countSubTitle;
-    /** @brief The time initialization for record video */
-    quint64 startTime;
-    /** @brief Holds the latitude actual UAV */
-    double lat;
-    /** @brief Holds the longitude actual UAV */
-    double lon;
-    /** @brief Holds the altitude actual UAV */
-    double alt;
     qint64 sizeFileRecord;
     void resizeEvent(QResizeEvent *size);
     /**

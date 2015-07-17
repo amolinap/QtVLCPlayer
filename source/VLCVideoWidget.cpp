@@ -13,10 +13,6 @@
 
 VLCVideoWidget::VLCVideoWidget(const QString path, QWidget *parent) :
         QWidget(parent),
-        //isRecord(false),
-        //isPlay(false),
-        //isRTSP(false),
-        //fileSubtitles(NULL),
         ui(new Ui::VLCVideoWidget)
 {
     ui->setupUi(this);
@@ -32,42 +28,13 @@ VLCVideoWidget::VLCVideoWidget(const QString path, QWidget *parent) :
     connect(vlcDisplay, SIGNAL(emitSizeFile(QString)), this, SLOT(setSizeFileVideo(QString)));
     createControlsVLC();
 
-    //countSubTitle =0;
-    //option =0;
-    //isSubTitles = false;
-    //readingSizeFile = false;
-    //startTime = -1,
-    //activeUAS = NULL;
     saveAutomatic = true;
-    //fileSubtitles = NULL;
-    //sizeFileRecord =0;
-    //connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(setActiveUAS(UASInterface*)));
 
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(updateInterface()));
     timer->start(1000);
 
-    QDir d;
-//    if(!d.exists(QDir::homePath()+"/videos"))
-//    {
-//        d.mkdir(QDir::homePath()+"/videos/");
-//    }
-    if(!d.exists(QCoreApplication::applicationDirPath()+"/../../../videos"))
-    {
-        //ui->label->setText(QCoreApplication::applicationDirPath()+"/../../../videos");
-
-        if(d.mkdir("../../../videos"))
-        {
-            qDebug()<<" - "<<QCoreApplication::applicationDirPath()+"/../../../videos";
-
-            //ui->label->setText(QCoreApplication::applicationDirPath()+"/../../../videos");
-        }
-    }
-
-    qDebug()<<"QDir::homePath()+/videos/ "<<QDir::homePath()+"/videos/";
-    qDebug()<<"QDir::currentPath()+/videos/ "<<QDir::currentPath()+"/videos/";
-    qDebug()<<"QCoreApplication::applicationDirPath()+/videos/ "<<QCoreApplication::applicationDirPath()+"/videos/";
-    qDebug()<<"QCoreApplication::applicationFilePath()+/videos/ "<<QCoreApplication::applicationFilePath()+"/../../../videos/";
+    setWindowTitle(tr("VLC Player v1.0"));
 }
 
 void VLCVideoWidget::createControlsVLC()
@@ -89,24 +56,19 @@ void VLCVideoWidget::createControlsVLC()
     slMediaPosition->setVisible(false);
 
     hlButtonOptions = new QHBoxLayout();
-    btPlay = new QPushButton(QIcon(":/images/icons_ET/Play.png"), "", this);
-    btPlay->setToolTip("Reproducir");
+    btPlay = new QPushButton(QIcon(":/images/icons_ET/Play.png"), tr("Play"), this);
     connect(btPlay, SIGNAL(clicked()), this, SLOT(play()));
 
-    btStop = new QPushButton(QIcon(":/images/icons_ET/Stop.png"), "", this);
-    btStop->setToolTip("Detener");
+    btStop = new QPushButton(QIcon(":/images/icons_ET/Stop.png"), tr("Stop"), this);
     connect(btStop, SIGNAL(clicked()), this, SLOT(stop()));
 
-    btOpenRTSP = new QPushButton(QIcon(":/images/icons_ET/Radio.png"), "", this);
-    btOpenRTSP->setToolTip("Abrir RTSP");
+    btOpenRTSP = new QPushButton(QIcon(":/images/icons_ET/Radio.png"), tr("RTSP"), this);
     connect(btOpenRTSP, SIGNAL(clicked()), this, SLOT(openRTSP()));
 
-    btOpenFile = new QPushButton(QIcon(":/images/icons_ET/Open.png"), "", this);
-    btOpenFile->setToolTip("Abrir Video");
+    btOpenFile = new QPushButton(QIcon(":/images/icons_ET/Open.png"), tr("Open"), this);
     connect(btOpenFile, SIGNAL(clicked()), this, SLOT(openFile()));
 
-    btRecord = new QPushButton(QIcon(":/images/icons_ET/Record.png"), "", this);
-    btRecord->setToolTip("Grabar");
+    btRecord = new QPushButton(QIcon(":/images/icons_ET/Record.png"), tr("Record"), this);
     connect(btRecord, SIGNAL(clicked()), this, SLOT(record()));
 
     hlButtonOptions->addWidget(btPlay);
@@ -132,7 +94,6 @@ void VLCVideoWidget::createControlsVLC()
     styleButtonGreen = QString("QAbstractButton { background-color: rgb(11, 255, 0); border-color: rgb(10, 10, 10)} QAbstractButton:checked { border: 2px solid #379AC3; }");
 
     btRecord->setStyleSheet(styleButtonGreen);
-    //processRecord.setProcessChannelMode(QProcess::MergedChannels);
     ui->groupBox->setLayout(vlDisplay);
 
     acVolume = new QAction("Ver control volumen", this);
@@ -232,7 +193,6 @@ void VLCVideoWidget::contextMenuEvent(QContextMenuEvent *event)
 
 void VLCVideoWidget::updateInterface()
 {
-    vlcDisplay->setPositionUAV(this->lat, this->lon, this->alt);
     vlcDisplay->updateInterface();
 
     if(!vlcDisplay->getIsRecord())
