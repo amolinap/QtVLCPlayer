@@ -110,7 +110,7 @@ void VLCDisplay::createInstanceVLC(const QString url)
         //"--no-audio",
         //"--plugin-path", VLC_TREE "/modules",
         "--ignore-config", //Don't use VLC's config files
-        "--rtsp-caching=10",
+        "--rtsp-caching=0",
         "--no-snapshot-preview"
         //"--{rtsp,http,sout-mux}-caching"
     };
