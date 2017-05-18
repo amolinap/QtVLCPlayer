@@ -140,6 +140,7 @@ void VLCVideoWidget::openRTSP()
 
     QStringList url = (QStringList() << tr("rtsp://201.168.1.30:554/axis-media/media.amp") << tr("http://192.168.1.90/mjpg/video.mjpg"));
 
+    // To receive emision from other PC use: udp://@:12000
     //QString text = QInputDialog::getText(this, tr("Ingrese la URL"), tr("URL RTSP Axis:"), QLineEdit::Normal, tr("rtsp://192.168.1.90:554/axis-media/media.amp"), &ok);
     QString text = QInputDialog::getItem(this, tr("Ingrese la URL"), tr("URL RTSP Axis:"), url, 0, true, &ok);
 
