@@ -56,26 +56,28 @@ void VLCVideoWidget::createControlsVLC()
     slMediaPosition->setVisible(false);
 
     hlButtonOptions = new QHBoxLayout();
-    btPlay = new QPushButton(QIcon(":/images/icons_ET/Play.png"), tr("Play"), this);
+    btPlay = new QPushButton(this);
     connect(btPlay, SIGNAL(clicked()), this, SLOT(play()));
 
-    btStop = new QPushButton(QIcon(":/images/icons_ET/Stop.png"), tr("Stop"), this);
+    btStop = new QPushButton(this);
     connect(btStop, SIGNAL(clicked()), this, SLOT(stop()));
 
-    btOpenRTSP = new QPushButton(QIcon(":/images/icons_ET/Radio.png"), tr("RTSP"), this);
+    btOpenRTSP = new QPushButton(this);
     connect(btOpenRTSP, SIGNAL(clicked()), this, SLOT(openRTSP()));
 
-    btOpenFile = new QPushButton(QIcon(":/images/icons_ET/Open.png"), tr("Open"), this);
+    btOpenFile = new QPushButton(this);
     connect(btOpenFile, SIGNAL(clicked()), this, SLOT(openFile()));
 
-    btRecord = new QPushButton(QIcon(":/images/icons_ET/Record.png"), tr("Record"), this);
+    btRecord = new QPushButton(this);
     connect(btRecord, SIGNAL(clicked()), this, SLOT(record()));
 
+    hlButtonOptions->setAlignment(Qt::AlignLeft);
     hlButtonOptions->addWidget(btPlay);
     hlButtonOptions->addWidget(btStop);
     hlButtonOptions->addWidget(btOpenRTSP);
     hlButtonOptions->addWidget(btOpenFile);
     hlButtonOptions->addWidget(btRecord);
+    //hlButtonOptions->addWidget(new QSpacerItem(0,1000, QSizePolicy::Expanding, QSizePolicy::Expanding));
 
     vlDisplay->addLayout(hlButtonOptions);
 

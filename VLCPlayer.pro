@@ -25,14 +25,17 @@ VLC_SOURCE = source
 INCLUDEPATH += $$VLC_SOURCE
 
 HEADERS += $$VLC_SOURCE/VLCVideoWidget.h \
-        $$VLC_SOURCE/VLCDisplay.h
+        $$VLC_SOURCE/VLCDisplay.h \
+        VideoManagement.h
 
 SOURCES += main.cpp \
         $$VLC_SOURCE/VLCVideoWidget.cpp \
-        $$VLC_SOURCE/VLCDisplay.cpp
+        $$VLC_SOURCE/VLCDisplay.cpp \
+        VideoManagement.cpp
 
 FORMS += $$VLC_SOURCE/VLCVideoWidget.ui \
-        $$VLC_SOURCE/VLCDisplay.ui
+        $$VLC_SOURCE/VLCDisplay.ui \
+        VideoManagement.ui
 
 INCLUDEPATH += /Applications/VLC.app/Contents/MacOS/include \
 

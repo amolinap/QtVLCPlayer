@@ -1,11 +1,13 @@
 #include <QApplication>
+
 #include "VLCVideoWidget.h"
+#include "VideoManagement.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    VLCVideoWidget w("");
+    VideoManagement w;
     w.show();
 
     return a.exec();
