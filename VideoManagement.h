@@ -7,8 +7,11 @@
 #include <QLayout>
 #include <QObject>
 #include <QSpacerItem>
+#include <QHostAddress>
+#include <QHostInfo>
 
 #include "VLCVideoWidget.h"
+#include "QtConfiguration.h"
 
 namespace Ui {
 class VideoManagement;
@@ -33,6 +36,9 @@ private:
     VLCVideoWidget* video6;
     VLCVideoWidget* video7;
     VLCVideoWidget* video8;
+
+public slots:
+    void getIPAddress();
 };
 
 #endif // VIDEOMANAGEMENT_H

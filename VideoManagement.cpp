@@ -35,9 +35,26 @@ VideoManagement::VideoManagement(QWidget *parent) :
     //column->addSpacerItem(new QSpacerItem(0,1000, QSizePolicy::Expanding, QSizePolicy::Expanding));
 
     setLayout(column);
+
+    this->setWindowTitle(tr("%0 v%1").arg(APP_NAME).arg(APP_VERSION));
+
+    getIPAddress();
 }
 
 VideoManagement::~VideoManagement()
 {
     delete ui;
+}
+
+void VideoManagement::getIPAddress()
+{
+    QHostInfo networkInfo(QHostInfo::fromName(QHostInfo::localHostName()));
+
+    foreach (const QHostAddress &address, networkInfo.addresses())
+    {
+        if (address.protocol() == QAbstractSocket::IPv4Protocol && address != QHostAddress(QHostAddress::LocalHost))
+        {
+            setWindowTitle(windowTitle()+" ["+ address.toString()+"] ");
+        }
+    }
 }

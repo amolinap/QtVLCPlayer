@@ -30,9 +30,9 @@ VLCVideoWidget::VLCVideoWidget(const QString path, QWidget *parent) :
 
     saveAutomatic = true;
 
-    QTimer *timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(updateInterface()));
-    timer->start(1000);
+//    QTimer *timer = new QTimer(this);
+//    connect(timer, SIGNAL(timeout()), this, SLOT(updateInterface()));
+//    timer->start(1000);
 
     setWindowTitle(tr("VLC Player v1.0"));
 }
@@ -134,7 +134,7 @@ void VLCVideoWidget::openRTSP()
 {
     bool ok;
 
-    QStringList url = (QStringList() << tr("rtsp://201.168.1.30:554/axis-media/media.amp") << tr("http://192.168.1.90/mjpg/video.mjpg"));
+    QStringList url = (QStringList() << tr("udp://@:12000"));
 
     // To receive emision from other PC use: udp://@:12000
     //QString text = QInputDialog::getText(this, tr("Ingrese la URL"), tr("URL RTSP Axis:"), QLineEdit::Normal, tr("rtsp://192.168.1.90:554/axis-media/media.amp"), &ok);

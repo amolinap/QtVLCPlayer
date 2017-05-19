@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -26,7 +26,8 @@ INCLUDEPATH += $$VLC_SOURCE
 
 HEADERS += $$VLC_SOURCE/VLCVideoWidget.h \
         $$VLC_SOURCE/VLCDisplay.h \
-        VideoManagement.h
+        VideoManagement.h \
+        QtConfiguration.h
 
 SOURCES += main.cpp \
         $$VLC_SOURCE/VLCVideoWidget.cpp \
