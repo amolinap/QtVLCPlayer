@@ -63,3 +63,6 @@ exists(/Applications/VLC.app)
     QMAKE_POST_LINK += && cp -f $$BASEDIR/bash/recordVLC.sh $$TARGETDIR/VLCPlayer.app/Contents/MacOS/recordVLC.sh
     QMAKE_POST_LINK += && cp -f $$BASEDIR/bash/pidprocess.sh $$TARGETDIR/VLCPlayer.app/Contents/MacOS/pidprocess.sh
 }
+
+RESOURCES += \
+    Resources.qrc

@@ -62,11 +62,10 @@ private:
     QPushButton *btStop;
     QPushButton *btOpenRTSP;
     QPushButton *btOpenFile;
-    QPushButton *btRecord;
     QVBoxLayout *vlDisplay;
     QHBoxLayout *hlMain;
     QHBoxLayout *hlButtonOptions;
-    QLabel *lbTittle, *lbSizeFile;
+    QLabel *lbTittle;
     QAction* acVolume, *acMediaPosition;
 
     QString styleButtonRed;
