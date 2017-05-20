@@ -55,31 +55,6 @@ void VLCVideoWidget::createControlsVLC()
     slVolume->setVisible(false);
     slMediaPosition->setVisible(false);
 
-    hlButtonOptions = new QHBoxLayout();
-    btPlay = new QPushButton(QIcon(":/images/Play.png"), tr(""), this);
-    btPlay->setToolTip(tr("Play"));
-    connect(btPlay, SIGNAL(clicked()), this, SLOT(play()));
-
-    btStop = new QPushButton(QIcon(":/images/Stop.png"), tr(""), this);
-    btStop->setToolTip(tr("Stop"));
-    connect(btStop, SIGNAL(clicked()), this, SLOT(stop()));
-
-    btOpenRTSP = new QPushButton(QIcon(":/images/Server.png"), tr(""), this);
-    btOpenRTSP->setToolTip(tr("Open Network"));
-    connect(btOpenRTSP, SIGNAL(clicked()), this, SLOT(openRTSP()));
-
-    btOpenFile = new QPushButton(QIcon(":/images/Open.png"), tr(""), this);
-    btOpenFile->setToolTip(tr("Open File"));
-    connect(btOpenFile, SIGNAL(clicked()), this, SLOT(openFile()));
-
-    hlButtonOptions->setAlignment(Qt::AlignLeft);
-    hlButtonOptions->addWidget(btPlay);
-    hlButtonOptions->addWidget(btStop);
-    hlButtonOptions->addWidget(btOpenRTSP);
-    hlButtonOptions->addWidget(btOpenFile);
-
-    vlDisplay->addLayout(hlButtonOptions);
-
     QHBoxLayout *hlLabelMedia = new QHBoxLayout();
     lbTittle = new QLabel(this);
     lbTittle->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
@@ -98,6 +73,18 @@ void VLCVideoWidget::createControlsVLC()
     acVolume->setChecked(false);
     acMediaPosition->setCheckable(true);
     acMediaPosition->setChecked(false);
+
+    acPlay = new QAction(QIcon(":/images/Play.png"), tr("Play"), this);
+    connect(acPlay, SIGNAL(triggered()), this, SLOT(play()));
+
+    acStop = new QAction(QIcon(":/images/Stop.png"), tr("Stop"), this);
+    connect(acStop, SIGNAL(triggered()), this, SLOT(stop()));
+
+    acNetwork = new QAction(QIcon(":/images/Server.png"), tr("Network"), this);
+    connect(acNetwork, SIGNAL(triggered()), this, SLOT(openRTSP()));
+
+    acFile = new QAction(QIcon(":/images/Open.png"), tr("Open"), this);
+    connect(acFile, SIGNAL(triggered()), this, SLOT(openFile()));
 }
 
 void VLCVideoWidget::play()
@@ -183,8 +170,10 @@ void VLCVideoWidget::changePATH(const QString &path)
 void VLCVideoWidget::contextMenuEvent(QContextMenuEvent *event)
 {
     QMenu menu(this);
-    menu.addAction(acVolume);
-    menu.addAction(acMediaPosition);
+    menu.addAction(acPlay);
+    menu.addAction(acStop);
+    menu.addAction(acNetwork);
+    menu.addAction(acFile);
     menu.exec(event->globalPos());
 }
 

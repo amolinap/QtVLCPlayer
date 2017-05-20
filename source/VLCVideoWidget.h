@@ -58,15 +58,11 @@ private:
     QSlider* slVolume;
     QSlider* slMediaPosition;
     QGroupBox* gbVLCDisplay;
-    QPushButton *btPlay;
-    QPushButton *btStop;
-    QPushButton *btOpenRTSP;
-    QPushButton *btOpenFile;
     QVBoxLayout *vlDisplay;
     QHBoxLayout *hlMain;
-    QHBoxLayout *hlButtonOptions;
     QLabel *lbTittle;
     QAction* acVolume, *acMediaPosition;
+    QAction *acPlay, *acStop, *acNetwork, *acFile;
 
     QString styleButtonRed;
     QString styleButtonGreen;
