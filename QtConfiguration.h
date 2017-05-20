@@ -24,6 +24,5 @@ namespace QtConfiguration
 #define APP_LICENSE "Derechos Reservados"
 #define APP_VERSION "1.0"
 #define APP_BUILT_ON "MAYO 2017"
-
 }
 #endif // QTCONFIGURATION_H

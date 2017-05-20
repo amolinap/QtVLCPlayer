@@ -1,6 +1,5 @@
 #include <QApplication>
 
-#include "VLCVideoWidget.h"
 #include "VideoManagement.h"
 
 int main(int argc, char *argv[])

@@ -38,32 +38,7 @@ FORMS += $$VLC_SOURCE/VLCVideoWidget.ui \
         $$VLC_SOURCE/VLCDisplay.ui \
         VideoManagement.ui
 
-INCLUDEPATH += /Applications/VLC.app/Contents/MacOS/include \
-
-LIBS += /Applications/VLC.app/Contents/MacOS/lib/libvlc.5.dylib \
-/Applications/VLC.app/Contents/MacOS/lib/libvlccore.dylib \
-
-macx: {
-        HEADERS += $$VLC_SOURCE/VLCMacWidget.h \
-                $$VLC_SOURCE/VLCNSView.h
-
-        OBJECTIVE_SOURCES += $$VLC_SOURCE/VLCMacWidget.mm \
-                $$VLC_SOURCE/VLCNSView.mm
-
-    LIBS += -framework AppKit \
-            -framework Cocoa
-}
-
-QMAKE_POST_LINK += echo "Copying files"
-exists(/Applications/VLC.app)
-{
-    QMAKE_POST_LINK += && cp -r /Applications/VLC.app/Contents/MacOS/include $$TARGETDIR/VLCPlayer.app/Contents/MacOS
-    QMAKE_POST_LINK += && cp -r /Applications/VLC.app/Contents/MacOS/lib $$TARGETDIR/VLCPlayer.app/Contents/MacOS
-    QMAKE_POST_LINK += && cp -r /Applications/VLC.app/Contents/MacOS/plugins $$TARGETDIR/VLCPlayer.app/Contents/MacOS
-
-    QMAKE_POST_LINK += && cp -f $$BASEDIR/bash/recordVLC.sh $$TARGETDIR/VLCPlayer.app/Contents/MacOS/recordVLC.sh
-    QMAKE_POST_LINK += && cp -f $$BASEDIR/bash/pidprocess.sh $$TARGETDIR/VLCPlayer.app/Contents/MacOS/pidprocess.sh
-}
-
 RESOURCES += \
     Resources.qrc
+
+LIBS += -lvlc -lvlccore

@@ -1,9 +1,19 @@
+/**
+ * @file
+ *   @brief Definition of class VLCDisplay
+ *
+ *   @author Alejandro Molina Pulido <am.alex09@gmail.com>
+ *
+ */
 #ifndef VLCDISPLAY_H
 #define VLCDISPLAY_H
 
 #include <QWidget>
+#include <QProcess>
+#include <QDebug>
+#include <QFileInfo>
+#include <QDateTime>
 
-#include "VLCMacWidget.h"
 #include "vlc/vlc.h"
 #include <unistd.h>
 #include <signal.h>
@@ -32,15 +42,10 @@ public:
      **/
     explicit VLCDisplay(const QString path, QWidget *parent = 0);
     virtual ~VLCDisplay();
-    /** @brief Updates the interface to manage data that are displayed and stored */
-    void updateInterface();
-    bool getIsRecord(){ return isRecord; }
     bool getIsPlay(){ return isPlay; }
 
 private:
     Ui::VLCDisplay *ui;
-    /** @brief Holds instance video player for visualization */
-    VLCMacWidget* vlcMacWidget;
     /** @brief Holds instance configuration for video player */
     libvlc_instance_t * instance;
     /** @brief Holds instance media video player */
@@ -59,10 +64,6 @@ public slots:
      */
     void playVideo();
     /**
-     * @brief This method video storage begins.
-     */
-    void recordVideo();
-    /**
      * @brief This method add new URL media for video player.
      *
      * @param url The URL where the video store
@@ -75,32 +76,6 @@ public slots:
      **/
     void createInstanceVLC(const QString url);
     /**
-     * @brief This method reads the process to know the status of video storage.
-     *
-     * @return If the process has been canceled
-     */
-    bool readPIDProcess();
-    /**
-     * @brief This method consultation process state video storage.
-     */
-    void viewPIDProcess();
-    /**
-     * @brief This method allows assign new path to video open/store.
-     *
-     * @param path The path where the video open/store
-     **/
-    void changePATH(const QString& path);
-    /**
-     * @brief This method return the time actual in milliseconds.
-     *
-     * @return Time in milliseconds
-     **/
-    quint64 getGroundTimeNow();    
-    /** @brief Starts the process of storing video */
-    void runRecordVideo();
-    /** @brief Stops the video storage */
-    void stopRecorVideo();
-    /**
      * @brief Assign the new URL of video storage
      *
      * @param url URL of video storage
@@ -112,17 +87,9 @@ public slots:
 protected:
     /** @brief Saved if video player is URL RTSP */
     bool isRTSP;
-    /** @brief Saved if video player is recording */
-    bool isRecord;
     /** @brief Saved if video player is play */
     bool isPlay;
-    QString url, pathVideo, nameFile;
-    QProcess processRecord;
-    /** @brief Ready size file where store video */
-    bool readingSizeFile;
-    int idProcess, option;
-    qint64 sizeFileRecord;
-    void resizeEvent(QResizeEvent *size);
+    QString url, nameFile;
     /**
      * @brief This method manage the close window event.
      *
@@ -130,9 +97,6 @@ protected:
      **/
     void closeEvent(QCloseEvent *event);    
 
-signals:
-    void emitRecordVideo(bool);
-    void emitSizeFile(QString);
 };
 
 #endif // VLCDISPLAY_H

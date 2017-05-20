@@ -1,10 +1,23 @@
 ================VLC_PLAYER=============================
-VLC Player to Mac
+VLC Player to Centos 6.5
 
 Features:
 - Play and Record video using streaming RTP or RTPS
 - Play video from local video
 
 Tools:
-- Qt v5.3.2, get from https://download.qt.io/official_releases/qt/5.3/5.3.2/
-- VLC v1.1.9, get from https://get.videolan.org/vlc/1.1.9/
+- yum update ##Update repositories, optional
+
+- rpm -Uvh http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm ##Update repositories to VLC
+- rpm -Uvh http://li.nux.ro/download/nux/dextop/el6/x86_64/nux-dextop-release-0-2.el6.nux.noarch.rpm ##Update repositories to VLC
+- yum info vlc
+- yum install vlc
+- yum install vlc-devel ##Headers to development Apps with VLC
+- whereis vlc //To see paths where VLC is install
+
+
+Fixed compilation:
+Error: /usr/bin/ld: cannot find -lGL
+
+In Terminal go to directory where build App is compile and run:
+g++ -Wl,-rpath,/opt/Qt5.3.2/5.3/gcc_64 -Wl,-rpath,/opt/Qt5.3.2/5.3/gcc_64/lib -o VLCPlayer obj/main.o obj/VLCVideoWidget.o obj/VLCDisplay.o obj/VideoManagement.o obj/qrc_Resources.o obj/moc_VLCVideoWidget.o obj/moc_VLCDisplay.o obj/moc_VideoManagement.o   -lvlc -lvlccore -L/opt/Qt5.3.2/5.3/gcc_64/lib -lQt5Widgets -lQt5Network -lQt5Gui -lQt5Core -lpthread

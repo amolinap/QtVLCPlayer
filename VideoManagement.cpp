@@ -32,7 +32,6 @@ VideoManagement::VideoManagement(QWidget *parent) :
     QVBoxLayout* column = new QVBoxLayout(this);
     column->addLayout(row1);
     column->addLayout(row2);
-    //column->addSpacerItem(new QSpacerItem(0,1000, QSizePolicy::Expanding, QSizePolicy::Expanding));
 
     setLayout(column);
 

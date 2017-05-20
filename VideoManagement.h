@@ -1,3 +1,9 @@
+/**
+ * @file
+ *   @brief Definition of class VideoManagement
+ *
+ *   @author Alejandro Molina Pulido <am.alex09@gmail.com>
+ */
 #ifndef VIDEOMANAGEMENT_H
 #define VIDEOMANAGEMENT_H
 
@@ -17,6 +23,13 @@ namespace Ui {
 class VideoManagement;
 }
 
+/**
+  * @brief It is the interface that contains the view to Video Management
+  *
+  * The VideoManagement class represents the interface that displays the central video.
+  *
+  * @see VLCVideoWidget
+**/
 class VideoManagement : public QWidget
 {
     Q_OBJECT
