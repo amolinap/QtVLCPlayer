@@ -13,10 +13,11 @@
 #include <QDebug>
 #include <QFileInfo>
 #include <QDateTime>
-
-#include "vlc/vlc.h"
 #include <unistd.h>
 #include <signal.h>
+
+#include "vlc/vlc.h"
+#include "VLCMacWidget.h"
 
 namespace Ui {
     class VLCDisplay;
@@ -53,6 +54,11 @@ private:
     /** @brief Holds instance playable media */
     libvlc_media_t * media;
     QString videoURL;
+
+    #if defined Q_OS_MAC
+        /** @brief Holds instance video player for visualization */
+        VLCMacWidget* vlcMacWidget;
+    #endif
 
 public slots:    
     /**

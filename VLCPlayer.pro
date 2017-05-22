@@ -41,4 +41,22 @@ FORMS += $$VLC_SOURCE/VLCVideoWidget.ui \
 RESOURCES += \
     Resources.qrc
 
-LIBS += -lvlc -lvlccore
+macx: {
+    INCLUDEPATH += /Applications/VLC.app/Contents/MacOS/include \
+
+    LIBS += /Applications/VLC.app/Contents/MacOS/lib/libvlc.5.dylib \
+    /Applications/VLC.app/Contents/MacOS/lib/libvlccore.dylib \
+
+    HEADERS += $$VLC_SOURCE/VLCMacWidget.h \
+            $$VLC_SOURCE/VLCNSView.h
+
+    OBJECTIVE_SOURCES += $$VLC_SOURCE/VLCMacWidget.mm \
+            $$VLC_SOURCE/VLCNSView.mm
+
+    LIBS += -framework AppKit \
+            -framework Cocoa
+}
+
+linux: {
+    LIBS += -lvlc -lvlccore
+}

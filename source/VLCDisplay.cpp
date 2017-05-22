@@ -17,7 +17,14 @@ VLCDisplay::VLCDisplay(const QString path, QWidget *parent) :
 
     createInstanceVLC(path);
     mediaPlayer = libvlc_media_player_new_from_media(media);
-    libvlc_media_player_set_xwindow(mediaPlayer, ui->gbPlayer->winId());
+
+    #if defined Q_OS_LINUX
+        libvlc_media_player_set_xwindow(mediaPlayer, ui->gbPlayer->winId());
+    #endif
+
+    #if defined Q_OS_MAC
+        vlcMacWidget = new VLCMacWidget(mediaPlayer, ui->gbPlayer);
+    #endif
 
     addURL(videoURL, true);
 }
