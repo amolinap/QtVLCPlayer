@@ -54,7 +54,7 @@ macx:{
             -framework Cocoa
 }
 
-unix:{
+unix:!macx:{
     LIBS += -lvlc -lvlccore
 }
 

@@ -25,8 +25,6 @@ VLCDisplay::VLCDisplay(QWidget *parent) :
     #if defined Q_OS_MAC
         vlcMacWidget = new VLCMacWidget(mediaPlayer, ui->gbPlayer);
     #endif
-
-    //addURL(videoURL, true);
 }
 
 VLCDisplay::~VLCDisplay()
@@ -81,8 +79,6 @@ void VLCDisplay::addURL(const QString url, bool isRTSP)
 
 void VLCDisplay::createInstanceVLC(const QString url)
 {
-    qDebug()<<"URL: "<<url;
-
     char const *argv[] =
     {
         "--no-video-title-show",
