@@ -17,7 +17,9 @@
 #include <signal.h>
 
 #include "vlc/vlc.h"
-#include "VLCMacWidget.h"
+#if defined Q_OS_MAC
+    #include "VLCMacWidget.h"
+#endif
 
 namespace Ui {
     class VLCDisplay;

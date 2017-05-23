@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network
+QT       += core gui network opengl
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -38,10 +38,7 @@ FORMS += $$VLC_SOURCE/VLCVideoWidget.ui \
         $$VLC_SOURCE/VLCDisplay.ui \
         VideoManagement.ui
 
-RESOURCES += \
-    Resources.qrc
-
-macx: {
+macx:{
     INCLUDEPATH += /Applications/VLC.app/Contents/MacOS/include \
 
     LIBS += /Applications/VLC.app/Contents/MacOS/lib/libvlc.5.dylib \
@@ -57,6 +54,11 @@ macx: {
             -framework Cocoa
 }
 
-linux: {
+unix:{
     LIBS += -lvlc -lvlccore
 }
+
+RESOURCES += \
+    Resources.qrc
+
+
