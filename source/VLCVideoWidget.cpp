@@ -11,15 +11,13 @@
 
 #define qtu( i ) ((i).toUtf8().constData())
 
-VLCVideoWidget::VLCVideoWidget(const QString path, QWidget *parent) :
+VLCVideoWidget::VLCVideoWidget(QWidget *parent) :
         QWidget(parent),
         ui(new Ui::VLCVideoWidget)
 {
     ui->setupUi(this);
 
-    vlcDisplay = new VLCDisplay("", this);
-    connect(vlcDisplay, SIGNAL(emitRecordVideo(bool)), this, SLOT(setRecordStyle(bool)));
-    connect(vlcDisplay, SIGNAL(emitSizeFile(QString)), this, SLOT(setSizeFileVideo(QString)));
+    vlcDisplay = new VLCDisplay(this);
 
     createControlsVLC();
 }

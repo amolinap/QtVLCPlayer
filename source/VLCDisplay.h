@@ -43,7 +43,7 @@ public:
      * @param path The path for instance to play
      * @param parent The parent the widget
      **/
-    explicit VLCDisplay(const QString path, QWidget *parent = 0);
+    explicit VLCDisplay(QWidget *parent = 0);
     virtual ~VLCDisplay();
     bool getIsPlay(){ return isPlay; }
 

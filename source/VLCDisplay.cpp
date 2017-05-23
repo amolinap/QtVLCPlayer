@@ -3,7 +3,7 @@
 
 #define qtu( i ) ((i).toUtf8().constData())
 
-VLCDisplay::VLCDisplay(const QString path, QWidget *parent) :
+VLCDisplay::VLCDisplay(QWidget *parent) :
         QWidget(parent),
         ui(new Ui::VLCDisplay)
 {
@@ -15,7 +15,7 @@ VLCDisplay::VLCDisplay(const QString path, QWidget *parent) :
 
     videoURL = "rtp://239.255.1.12";
 
-    createInstanceVLC(path);
+    createInstanceVLC(videoURL);
     mediaPlayer = libvlc_media_player_new_from_media(media);
 
     #if defined Q_OS_LINUX
@@ -26,7 +26,7 @@ VLCDisplay::VLCDisplay(const QString path, QWidget *parent) :
         vlcMacWidget = new VLCMacWidget(mediaPlayer, ui->gbPlayer);
     #endif
 
-    addURL(videoURL, true);
+    //addURL(videoURL, true);
 }
 
 VLCDisplay::~VLCDisplay()

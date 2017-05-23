@@ -7,15 +7,15 @@ VideoManagement::VideoManagement(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    video1 = new VLCVideoWidget("");
-    video2 = new VLCVideoWidget("");
-    video3 = new VLCVideoWidget("");
-    video4 = new VLCVideoWidget("");
+    video1 = new VLCVideoWidget();
+    video2 = new VLCVideoWidget();
+    video3 = new VLCVideoWidget();
+    video4 = new VLCVideoWidget();
 
-    video5 = new VLCVideoWidget("");
-    video6 = new VLCVideoWidget("");
-    video7 = new VLCVideoWidget("");
-    video8 = new VLCVideoWidget("");
+    video5 = new VLCVideoWidget();
+    video6 = new VLCVideoWidget();
+    video7 = new VLCVideoWidget();
+    video8 = new VLCVideoWidget();
 
     QHBoxLayout* row1 = new QHBoxLayout();
     row1->addWidget(video1);
@@ -29,9 +29,17 @@ VideoManagement::VideoManagement(QWidget *parent) :
     row2->addWidget(video7);
     row2->addWidget(video8);
 
+    QPushButton* btClose = new QPushButton(tr("Cerrar"), this);
+    connect(btClose, SIGNAL(clicked()), this, SLOT(close()));
+
+    QHBoxLayout* row3 = new QHBoxLayout();
+    row3->addSpacerItem(new QSpacerItem(10, 10, QSizePolicy::Expanding, QSizePolicy::Minimum));
+    row3->addWidget(btClose);
+
     QVBoxLayout* column = new QVBoxLayout(this);
     column->addLayout(row1);
     column->addLayout(row2);
+    column->addLayout(row3);    
 
     setLayout(column);
 
