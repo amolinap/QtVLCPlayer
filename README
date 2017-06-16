@@ -21,3 +21,7 @@ Error: /usr/bin/ld: cannot find -lGL
 
 In Terminal go to directory where build App is compile and run:
 g++ -Wl,-rpath,/opt/Qt5.3.2/5.3/gcc_64 -Wl,-rpath,/opt/Qt5.3.2/5.3/gcc_64/lib -o VLCPlayer obj/main.o obj/VLCVideoWidget.o obj/VLCDisplay.o obj/VideoManagement.o obj/qrc_Resources.o obj/moc_VLCVideoWidget.o obj/moc_VLCDisplay.o obj/moc_VideoManagement.o   -lvlc -lvlccore -L/opt/Qt5.3.2/5.3/gcc_64/lib -lQt5Widgets -lQt5Network -lQt5Gui -lQt5Core -lpthread
+
+Install OpenGL libraries
+- yum install libgl1-mesa-dev
+- yum install freeglut-devel
